@@ -19,7 +19,20 @@ public:
 	String& DelCharAt(size_t pos);
 
 	String& ConcatStr(const String& str);
+	String& ConcatStr(const char* str);
 	void operator()(const char *str);
+
+	String &operator=(const String& str);
+	String &operator+ (const String& str);
+	String &operator+ (const char *str);
+
+	String& AddStrAt(const String& str, size_t pos);
+	String& AddStrAt(const char* str, size_t pos);
+
+	static String Format(const char* specs, ...);
 
 	~String() { delete[] m_stringRep; }
 };
+
+
+

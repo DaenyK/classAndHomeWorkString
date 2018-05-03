@@ -67,11 +67,128 @@ String & String::DelCharAt(size_t pos)
 
 String & String::ConcatStr(const String & str)
 {
+	char *tmp;
+	int tmp_lenght = this->lenght + str.lenght;
+	tmp = new char[tmp_lenght+1];
 
+	for (int i = 0; i < this->lenght; i++)
+		tmp[i] = this->m_stringRep[i];
+	for (int i = 0; i < str.lenght; i++)
+		tmp[i+lenght] = str.m_stringRep[i];
+
+	tmp[tmp_lenght] = '\0';
+	delete[]this->m_stringRep;
+	this->m_stringRep = tmp;
+	this->lenght = tmp_lenght;
+	return *this;
+
+}
+
+String & String::ConcatStr(const char * str)
+{
+	int tmp_lenght = this->lenght + strlen(str);
+	char *tmp = new char[tmp_lenght + 1];
+
+	for (int i = 0; i < this->lenght; i++)
+		tmp[i] = this->m_stringRep[i];
+	for (int i = 0; i < strlen(str); i++)
+		tmp[i + lenght] = str[i];
+
+	tmp[tmp_lenght] = '\0';
+	delete[]this->m_stringRep;
+	this->m_stringRep = tmp;
+	this->lenght = tmp_lenght;
+	return *this;
+	
 }
 
 void String::operator()(const char * str)
 {
 	for (int i = 0; i < strlen(str);i++)
 		this->m_stringRep [i]= str[i];
+}//оператор круглых скобок
+
+String & String::operator=(const String & str)
+{
+	char*tmp;
+	this->lenght = str.lenght;
+	tmp = new char[this->lenght];
+	for (int i = 0; i < lenght; i++)
+		tmp[i]= str.m_stringRep[i];
+	tmp[lenght] = '\0';
+	delete[]this->m_stringRep;
+	m_stringRep = tmp;
+	return *this;
 }
+
+String & String::operator+(const char * str)
+{
+	ConcatStr(str);
+	return *this;
+}
+
+String & String::operator+(const String & str)
+{
+	ConcatStr(str);
+	return *this;
+}
+
+String & String::AddStrAt(const String & str, size_t pos)
+{
+	int tmp_lenght = lenght+str.lenght;
+	char *tmp = new char[tmp_lenght + 1];
+	tmp[tmp_lenght] = '\0';
+	for (int i = 0; i < pos; i++)
+		tmp[i] = this->m_stringRep[i];
+	for (int i = 0; i < str.lenght; i++)
+		tmp[pos + i] = str.m_stringRep[i];
+	for (int i = pos; i < this->lenght; i++)
+		tmp[i + str.lenght] = this->m_stringRep[i];
+	delete[]this->m_stringRep;
+	this->m_stringRep = tmp;
+	this->lenght = tmp_lenght;
+	return *this;
+}
+
+String & String::AddStrAt(const char * str, size_t pos)
+{
+	int tmp_lenght = lenght + strlen(str);
+	char *tmp = new char[tmp_lenght + 1];
+	tmp[tmp_lenght] = '\0';
+	for (int i = 0; i < pos; i++)
+		tmp[i] = this->m_stringRep[i];
+	for (int i = 0; i < strlen(str); i++)
+		tmp[pos + i] = str[i];
+	for (int i = pos; i < this->lenght; i++)
+		tmp[i + strlen(str)] = this->m_stringRep[i];
+	delete[]this->m_stringRep;
+	this->m_stringRep = tmp;
+	this->lenght = tmp_lenght;
+	return *this;
+}
+
+//String String::Format(const char * specs, ...)
+//{
+//	{
+//		int ival;
+//		double dval;
+//
+//		va_list ap; 									//Указатель на список параметров
+//		va_start(ap, format);						 	//Настроились на список параметров
+//		for (char *p = format;*p;p++) 					//
+//		{
+//			if (*p == '%') 									//Если встретится символ %
+//			{
+//				switch (*++p) 								//То анализируем следующий за этим симолом символ
+//				{
+//				case 'd':  ival = va_arg(ap, int); 			//Если это символ d, то значит параметр int
+//					cout << ival << " ";break; 					//Выводим параметр типа int на экран
+//				case 'f':  dval = va_arg(ap, double); 		//Если это символ f значит параметр double
+//					cout << dval << " ";break; 					//Выводим параметр типа double на экран
+//				}
+//			}
+//			else cout << *p << " ";
+//		}
+//		va_end(ap);
+//}
+
