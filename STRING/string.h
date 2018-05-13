@@ -29,7 +29,14 @@ public:
 	String& AddStrAt(const String& str, size_t pos);
 	String& AddStrAt(const char* str, size_t pos);
 
-	static String Format(const char* specs, ...);
+	//static String Format(const char* specs, ...);
+
+
+	String& DelStrAt(size_t beg, size_t end);
+	size_t SubStr(const String& what);
+	size_t SubStr(const char* what);
+	String& Replace(const String& what, const String& rep);
+	String& Replace(const char* what, const char* rep);
 
 	~String() { delete[] m_stringRep; }
 };
